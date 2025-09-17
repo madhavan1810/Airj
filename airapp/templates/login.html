@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | AirJ</title>
+
+  <style>
+    :root {
+      --blue: #007BFF;
+      --green: #28A745;
+      --bg-light: #f7f9fb;
+      --bg-dark: #1b1f23;
+      --text-light: #222;
+      --text-dark: #eee;
+      --transition: 0.3s ease-in-out;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: var(--bg-light);
+      color: var(--text-light);
+      font-family: 'Segoe UI', sans-serif;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    body.dark {
+      background: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    .login-card {
+      background: var(--bg-light);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      padding: 2rem;
+      width: 100%;
+      max-width: 400px;
+      transition: background var(--transition), box-shadow var(--transition);
+    }
+
+    body.dark .login-card {
+      background: #2a2f34;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    }
+
+    .login-card h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      background: linear-gradient(90deg, var(--blue), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    input {
+      padding: 0.75rem;
+      border: 2px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(0,123,255,0.3);
+    }
+
+    .btn {
+      padding: 0.85rem;
+      font-size: 1rem;
+      font-weight: 600;
+      background: linear-gradient(90deg, var(--blue), var(--green));
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition);
+    }
+
+    .btn:hover {
+      filter: brightness(1.1);
+      transform: translateY(-2px);
+    }
+
+    .dark-toggle {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: 2px solid var(--blue);
+      color: var(--blue);
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .dark-toggle:hover {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .error-msg {
+      margin-top: 0.5rem;
+      padding: 0.6rem;
+      background-color: #e0f5ff;
+      border: 1px solid #66c2ff;
+      color: #004466;
+      text-align: center;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 480px) {
+      .login-card {
+        margin: 0 1rem;
+        padding: 1.5rem;
+      }
+
+      .dark-toggle {
+        top: 0.5rem;
+        right: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Dark Mode Toggle -->
+  <button class="dark-toggle" id="darkToggle">Dark Mode</button>
+
+  <!-- Login Card -->
+  <div class="login-card">
+    <h2>Login to AirJ</h2>
+    <form method="post" action="{% url 'login' %}">
+      {% csrf_token %}
+
+      <div>
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" required autocomplete="username"/>
+      </div>
+
+      <div>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required autocomplete="current-password"/>
+      </div>
+
+      <button type="submit" class="btn">Login</button>
+
+      <div style="text-align:center; margin-top: 1rem;">
+        <span>Don't have an account?</span>
+        <a href="{% url 'register' %}" style="color: var(--blue); font-weight: 600; text-decoration: underline; margin-left: 4px;">Register</a>
+      </div>
+
+      {% if error %}
+        <div class="error-msg">{{ error }}</div>
+      {% endif %}
+    </form>
+  </div>
+
+  <script>
+    const toggleBtn = document.getElementById('darkToggle');
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      toggleBtn.textContent = document.body.classList.contains('dark') ? 'Light Mode' : 'Dark Mode';
+    });
+  </script>
+</body>
+</html>

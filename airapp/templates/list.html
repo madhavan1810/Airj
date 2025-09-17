@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Available Flights | AirJ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2972/2972185.png" />
+
+  <style>
+    body {
+      font-family: "Montserrat", sans-serif;
+      background: linear-gradient(to bottom, #e0f7ff, #ffffff);
+      padding-top: 4rem;
+    }
+
+    .navbar {
+      background: linear-gradient(to right, #00aaff, #007bff);
+    }
+
+    .navbar-brand, .nav-link {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .nav-link:hover {
+      color: #ccf2ff !important;
+    }
+
+    h2 {
+      color: #007bff;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .flight-card {
+      border: 1px solid #007bff33;
+      border-radius: 12px;
+      padding: 20px;
+      background: #ffffff;
+      box-shadow: 0 6px 16px rgba(0, 123, 255, 0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .flight-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 24px rgba(0, 123, 255, 0.2);
+    }
+
+    .flight-card h5 {
+      color: #0056b3;
+      font-weight: 600;
+    }
+
+    .flight-card p {
+      margin-bottom: 6px;
+    }
+
+    .btn-book {
+      background-color: #007bff;
+      color: #fff;
+      font-weight: 500;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 16px;
+      transition: background 0.3s ease;
+    }
+
+    .btn-book:hover {
+      background-color: #0056b3;
+    }
+
+    .form-label {
+      font-weight: 500;
+      color: #004080;
+    }
+
+    input[type="number"] {
+      max-width: 200px;
+      margin: 0 auto;
+    }
+
+    .alert-warning {
+      background-color: #fff3cd;
+      color: #856404;
+      font-weight: 500;
+      border-radius: 8px;
+      padding: 1rem;
+    }
+
+    footer {
+      margin-top: 60px;
+      background: linear-gradient(to right, #00aaff, #007bff);
+      color: white;
+      text-align: center;
+      padding: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'home' %}">✈ AirJ</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="{% url 'find_flight' %}">Find Flight</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'seebookings' %}">My Bookings</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'contact_us' %}">Contact</a></li>
+          <li class="nav-item"><a class="nav-link btn btn-danger text-white px-3" href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container mt-4 d-flex flex-column align-items-center">
+    <h2>Available Flights</h2>
+
+    {% if flight_list %}
+      <div class="row g-4 justify-content-center mt-3" style="max-width: 1000px; width: 100%;">
+        {% for flight in flight_list %}
+        <div class="col-md-6 d-flex justify-content-center">
+          <div class="flight-card w-100">
+            <h5>🛫 {{ flight.bus_name }}</h5>
+            <p><strong>From:</strong> {{ flight.source }} → <strong>To:</strong> {{ flight.dest }}</p>
+            <p><strong>Date:</strong> {{ flight.date }} | <strong>Time:</strong> {{ flight.time }}</p>
+            <p><strong>Total Seats:</strong> {{ flight.nos }} | <strong>Available:</strong> {{ flight.rem }}</p>
+            <p><strong>Fare:</strong> ₹{{ flight.price }} per seat</p>
+
+            <form method="post" action="{% url 'bookings' %}" class="text-center mt-3">
+              {% csrf_token %}
+              <input type="hidden" name="flight_id" value="{{ flight.id }}">
+              <div class="mb-3">
+                <label for="no_seats_{{ forloop.counter }}" class="form-label">Number of Seats</label>
+                <input type="number" id="no_seats_{{ forloop.counter }}" name="no_seats"
+                       class="form-control" min="1" max="{{ flight.rem }}" required>
+              </div>
+              <button type="submit" class="btn btn-book">Book Now</button>
+            </form>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="alert alert-warning text-center mt-4">
+        No flights found for the selected route and date.
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 AirJ — Fly Smart. Fly Safe.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

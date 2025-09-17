@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard | AirJ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+
+  <style>
+    body {
+      font-family: "Montserrat", sans-serif;
+      background: #f2faff;
+    }
+
+    .navbar {
+      background: linear-gradient(45deg, #007BFF, #28A745);
+    }
+
+    .navbar-brand, .nav-link {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .nav-link:hover {
+      color: #d4f2ff !important;
+    }
+
+    .card {
+      border: none;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      transition: transform .3s, box-shadow .3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+    }
+
+    .btn-airj {
+      background-color: #007BFF;
+      border: none;
+      transition: .3s;
+      color: white;
+    }
+
+    .btn-airj:hover {
+      background-color: #0056b3;
+    }
+
+    footer {
+      background: linear-gradient(45deg, #007BFF, #28A745);
+    }
+
+    footer p {
+      margin: 0;
+      font-size: .9rem;
+      color: white;
+    }
+
+    .hero {
+      background: url('https://source.unsplash.com/1600x400/?airplane,clouds') no-repeat center/cover;
+      padding: 3rem 1rem;
+      color: white;
+      text-shadow: 0 2px 5px rgba(0,0,0,.5);
+      margin-bottom: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'home' %}">AirJ</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarNav" aria-controls="navbarNav"
+              aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'find_flight' %}">Search Flights</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'contact_us' %}">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn btn-danger text-white" href="{% url 'logout' %}">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="hero text-center">
+    <div class="container">
+      <h1 class="display-5">Welcome, {{ request.user.username }}!</h1>
+      <p class="lead">Your personal AirJ dashboard — plan, book, and manage your flights.</p>
+    </div>
+  </div>
+
+  <!-- Dashboard Cards -->
+  <div class="container">
+    <div class="row g-4">
+      <!-- Search Flights -->
+      <div class="col-md-4">
+        <div class="card text-white bg-primary">
+          <div class="card-body">
+            <h5 class="card-title">Search Flights</h5>
+            <p class="card-text">Find available flights between cities and dates.</p>
+            <a href="{% url 'find_flight' %}" class="btn btn-light">Find Flights</a>
+          </div>
+        </div>
+      </div>
+      <!-- Contact -->
+      <div class="col-md-4">
+        <div class="card text-white bg-success">
+          <div class="card-body">
+            <h5 class="card-title">Contact Us</h5>
+            <p class="card-text">Have a query or feedback? Reach out to us!</p>
+            <a href="{% url 'contact_us' %}" class="btn btn-light">Contact</a>
+          </div>
+        </div>
+      </div>
+      <!-- Logout -->
+      <div class="col-md-4">
+        <div class="card text-white bg-danger">
+          <div class="card-body">
+            <h5 class="card-title">Logout</h5>
+            <p class="card-text">Securely end your session with AirJ.</p>
+            <a href="{% url 'logout' %}" class="btn btn-light">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="container mt-5 text-center">
+    <h3 class="mb-3">Quick Actions</h3>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <a href="{% url 'find_flight' %}" class="btn btn-airj px-4 py-2">Search Flights</a>
+      <a href="{% url 'seebookings' %}" class="btn btn-airj px-4 py-2">View Bookings</a>
+      <a href="{% url 'contact_us' %}" class="btn btn-airj px-4 py-2">Contact Support</a>
+      <a href="{% url 'logout' %}" class="btn btn-airj px-4 py-2">Logout</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center mt-5 py-3">
+    <div class="container">
+      <p>&copy; 2025 AirJ | Your journey, elevated.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

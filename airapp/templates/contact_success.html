@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Message Sent | AirJ</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #e6f7ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        .message-box {
+            background: white;
+            padding: 30px 50px;
+            border-radius: 10px;
+            border-left: 5px solid #28A745;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 {
+            color: #007BFF;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: white;
+            background-color: #007BFF;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #28A745;
+        }
+    </style>
+</head>
+<body>
+    <div class="message-box">
+        <h2>✉️ Message Delivered Successfully!</h2>
+        <p>Thank you for contacting <strong>AirJ</strong>. Our support team will get in touch with you shortly.</p>
+        <a href="{% url 'home' %}">Back to Dashboard</a>
+    </div>
+</body>
+</html>
